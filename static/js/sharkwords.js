@@ -69,8 +69,9 @@ const handleWrongGuess = () => {
     message.style.display = "block"
 
   } else {
-    sharkImage = document.querySelector("#shark-img")
-    sharkImage.innerHTML = `<img src="static/images/guess${numWrong}.png">`
+    sharkImage = document.querySelector("#shark-img img")
+    sharkImage.setAttribute('src', `/static/images/guess${numWrong}.png`)
+    // sharkImage.innerHTML = `<img src="static/images/guess${numWrong}.png">`
   }
 };
 
@@ -106,9 +107,9 @@ const isGameOver = () => {
     }
   }
   if (counter === letter_boxes.length) {
-    const message = document.querySelector("#play-again")
+    const message = document.querySelector("#win")
     message.style.display = "block"
-    message.innerText = "Congratulations! You won! Play again?"
+    message.addEventListener('click', resetGame)
   }
 }
 
