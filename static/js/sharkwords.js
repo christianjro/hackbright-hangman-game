@@ -85,7 +85,19 @@ const handleCorrectGuess = (letter) => {
 
 const handleWrongGuess = () => {
   numWrong += 1;
-  // Replace this with your code
+
+  if (numWrong === 5){
+    const buttons = document.querySelectorAll("button")
+    for (const button of buttons){
+      disableLetterButton(button)
+    }
+    const message = document.querySelector("#play-again")
+    message.style.display = "block"
+
+  } else {
+    sharkImage = document.querySelector("#shark-img")
+    sharkImage.innerHTML = `<img src="static/images/guess${numWrong}.png">`
+  }
 };
 
 //  Reset game state. Called before restarting the game.
