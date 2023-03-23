@@ -76,22 +76,6 @@ const handleWrongGuess = () => {
 };
 
 
-const handleButtonClick = (event) => {
-  const button = event.target;
-  const letter = button.innerText;
-  const word = 'hello';
-
-  if(isLetterInWord(letter, word)){
-    handleCorrectGuess(letter)
-  } else {
-    handleWrongGuess()
-  }
-
-  disableLetterButton(button)
-  isGameOver()
-}
-
-
 //  Reset game state. Called before restarting the game.
 const resetGame = () => {
   window.location = '/sharkwords';
@@ -117,16 +101,35 @@ const isGameOver = () => {
 // This is like if __name__ == '__main__' in Python
 // It will be called when the file is run (because
 // we call the function on line 66)
-(function startGame() {
-  const word = 'hello';
-
+function startGame(word) {
+  console.log(word)
   createDivsForChars(word);
   generateLetterButtons();
 
   for (const button of document.querySelectorAll('button')) {
-    button.addEventListener('click', (event) => {handleButtonClick(event)})
+    button.addEventListener('click', (event) => {
+      const button = event.target;
+      const letter = button.innerText;
+
+      if(isLetterInWord(letter, word)){
+        handleCorrectGuess(letter)
+      } else {
+        handleWrongGuess()
+      }
+
+      disableLetterButton(button)
+      isGameOver()
+    })
   }
 
   const playAgain = document.querySelector("#play-again")
   playAgain.addEventListener('click', resetGame)
-})();
+};
+
+
+fetch("/get_random_word")
+  .then((response) => response.json())
+  .then((data) => {
+    word = data.random_word
+    startGame(word)
+  })
